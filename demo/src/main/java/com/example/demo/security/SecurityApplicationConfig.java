@@ -3,7 +3,6 @@ package com.example.demo.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
@@ -12,12 +11,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
-import static com.example.demo.security.ApplicationUserPermission.COURSE_READ;
-import static com.example.demo.security.ApplicationUserPermission.COURSE_WRITE;
 import static com.example.demo.security.ApplicationUserRole.*;
-import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true) // For use the @PreAutorize annotation
@@ -38,10 +33,12 @@ public class SecurityApplicationConfig {
                 .csrf().disable()
                 .authorizeHttpRequests((authz) -> authz
                         .antMatchers("/", "index", "/css/*", "/js/*").permitAll()
-                        .antMatchers("/api/**").hasRole(ADMIN.name())
+                        .antMatchers("/api/**").hasRole(STUDENT.name())
                         .anyRequest().authenticated()
                 )
-                .httpBasic(withDefaults());
+                .formLogin()
+                .loginPage("/login").permitAll()
+                .defaultSuccessUrl("/courses", true);
         return http.build();
     }
 
