@@ -41,7 +41,7 @@ public class SecurityApplicationConfig {
                         .antMatchers("/api/**").hasRole(ADMIN.name())
                         .anyRequest().authenticated()
                 )
-                .httpBasic(withDefaults());
+                .formLogin();
         return http.build();
     }
 
