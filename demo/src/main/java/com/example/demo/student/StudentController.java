@@ -19,7 +19,6 @@ public class StudentController {
             new Student(3, "Anna Smith")
     );
 
-    @PreAuthorize("hasAnyRole('ROLE_STUDENT')")
     @GetMapping(path = "{studentId}")
     public Student getStudent(@PathVariable("studentId") Integer studentId){
         return STUDENTS.stream().filter(student -> studentId.equals(student.getStudentId()))
