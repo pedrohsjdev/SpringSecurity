@@ -70,7 +70,6 @@ public class SecurityApplicationConfig {
 //                    .invalidateHttpSession(true)
 //                    .deleteCookies("JSESSIONID", "remember-me")
 //                    .logoutSuccessUrl("/login");
-
         return http.build();
     }
 
